@@ -28,7 +28,7 @@ def klient():
     app.config["TESTING"]  = True
     return app.test_client()
 
-@patch("functions.func.requests.get")
+@patch("functions.hamtaData.requests.get")
 def test_api(mock_get, klient):
     mock_get.return_value= Mock(json=lambda: DATA)
     svar = klient.post("/", data=VAL)
