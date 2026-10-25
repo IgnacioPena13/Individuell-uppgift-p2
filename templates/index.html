@@ -9,18 +9,26 @@
 </head>
 
 <body>
-    <h1 style='width: 100%; height:100%; display: flex; justify-content: center; align-items: center'><u>Väder app,
-            Baby!</u></h1>
-    <div class="col-6 d-flex justify-content-center">
-        <label for="stad">Välj en stad:</label>
-        <select name="stad">
-            <option value="Stockholm">Stockholm</option>
-            <option value="Göteborg">Göteborg</option>
-            <option value="Malmö">Malmö</option>
-            <option value="Umeå">Umeå</option>
-            <option value="Kiruna">Kiruna</option>
-        </select>
-    </div>
+    <header>
+        <h1 style='width: 100%; height:100%; display: flex; justify-content: center; align-items: center'><u>Väder app,
+                Baby!</u></h1>
+        <div class="col-6 d-flex justify-content-center">
+            <form action="#" method="POST">
+                <label for="stad">Välj en stad:</label>
+                <select name="stad">
+                    <option value="Stockholm">Stockholm</option>
+                    <option value="Göteborg">Göteborg</option>
+                    <option value="Malmö">Malmö</option>
+                    <option value="Umeå">Umeå</option>
+                    <option value="Kiruna">Kiruna</option>
+                </select>
+                <button type="Submit">Skicka</button>
+            </form>
+        </div>
+    </header>
+    <main>
+        {%block content%}{%endblock%}
+    </main>
 </body>
 
 </html>

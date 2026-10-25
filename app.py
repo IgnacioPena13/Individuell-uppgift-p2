@@ -4,4 +4,12 @@ app = Flask(__name__)
 
 @app.route("/", methods=["GET","POST"])
 def index():
-    return render_template("index.html")
+    if request.method == "POST":
+        stad = request.form["stad"]
+        return redirect(url_for("stad_info", stad=stad))
+    else:
+        return render_template("index.html")
+
+@app.route("/stad/<stad>")
+def stad_info(stad):
+    return render_template("info.html", stad=stad)
