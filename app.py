@@ -7,7 +7,6 @@ app = Flask(__name__)
 def index():
     if request.method == "POST":
         stad = request.form["stad"]
-
         return redirect(url_for("prognos", stad=stad))
     else:
         return render_template("index.html")
