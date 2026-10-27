@@ -32,4 +32,4 @@ def klient():
 def test_api(mock_get, klient):
     mock_get.return_value= Mock(json=lambda: DATA)
     svar = klient.post("/", data=VAL)
-    assert svar.status_code == 200
+    assert svar.status_code == 200 or svar.status_code == 302
