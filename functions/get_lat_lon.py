@@ -12,6 +12,8 @@ def get_lat(stad):
         case "Kiruna":
             lat = 67.86
     return lat
+
+
 def get_lon(stad):
     lon = 0
     match stad:

@@ -1,0 +1,16 @@
+[project]
+name = "Individuell-uppgift-p2"
+version = "0.1.0"
+description ="Projekt till individuell uppgiften P2 (väderapp)"
+requires-python = ">=3.10"
+
+[tool.ruff]
+line-length= 90
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E","F","W","I","B","UP"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
