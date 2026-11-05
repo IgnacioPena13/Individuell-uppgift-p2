@@ -1,7 +1,7 @@
 from flask import Flask, redirect, render_template, request, url_for
 
 from functions.get_lat_lon import get_lat, get_lon
-from functions.hamtaData import hamtaData
+from functions.hamta_data import hamtaData
 
 app = Flask(__name__)
 

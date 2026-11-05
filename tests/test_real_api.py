@@ -1,4 +1,4 @@
-from functions.hamtaData import hamtaData
+from functions.hamta_data import hamtaData
 
 
 def test_DataHamtas():
