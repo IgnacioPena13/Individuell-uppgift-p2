@@ -5,7 +5,7 @@ description ="Projekt till individuell uppgiften P2 (väderapp)"
 requires-python = ">=3.10"
 
 [tool.ruff]
-line-length= 90
+line-length= 120
 target-version = "py310"
 
 [tool.ruff.lint]

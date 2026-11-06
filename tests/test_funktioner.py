@@ -1,7 +1,9 @@
 from datetime import date
-from functions.matcha_per_timme import matchAllaKeys
 
-#testar om funktionen för att matche temperatur och tiden funkar,
+from functions.hantera_data import matchAllaKeys
+
+
+# testar om funktionen för att matche temperatur och tiden funkar,
 #  använder datetime för att hämta datum fär dagen man kör och jämföra#
 def testMatchTemperatur():
     data = matchAllaKeys(59.33, 18.07)
