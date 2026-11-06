@@ -1,11 +1,7 @@
 import requests
 
-
-def hamtaData(lat: float, lon: float):
-    url = "https://api.open-meteo.com/v1/forecast"
-    params = {
-        "latitude": lat,
-        "longitude": lon,
+URL = "https://api.open-meteo.com/v1/forecast"
+PARAMS = {
         "daily": [
             "weather_code",
             "sunset",
@@ -42,6 +38,10 @@ def hamtaData(lat: float, lon: float):
         "minutely_15": "temperature_2m",
         "timezone": "Europe/Berlin",
     }
+
+def hamtaData(lat: float, lon: float):
+    url = URL
+    params = {"latitude": lat, "longitude": lon, **PARAMS}
     try:
         response = requests.get(url, params=params, timeout=5)
         response.raise_for_status()

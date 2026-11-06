@@ -13,8 +13,8 @@
         <div
             class="w-100 h-100 bg-light d-flex flex-column justify-content-center align-items-center border border-2 border-warning rounded-3">
             <h1 class="text-primary">{{stad}}</h1>
-            <h3 class="text-primary">{{temperatur}} {{tempEnhet}}</h3>
-            <h4 class="text-secondary">Känns som: {{kannsSom}} {{tempEnhet}}</h4>
+            <h3 class="text-primary">{{temperatur | formatera_temperatur}}</h3>
+            <h4 class="text-secondary">Känns som: {{kannsSom| formatera_temperatur}}</h4>
         </div>
     </div>
 </body>

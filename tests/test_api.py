@@ -2,7 +2,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from app import app
+from app import app, formatera_temperatur
 
 DATA = {
     "latitude": 59.3289,
@@ -29,6 +29,7 @@ DATA = {
 }
 
 VAL = {"stad": "Stockholm"}
+OGILTIG_VAL = {"stad": "altokemirey"}
 
 
 @pytest.fixture
@@ -42,9 +43,36 @@ def klient():
 # mock_get vet då vilket data ska returneras pga Mock
 # (ett obj. som har ett atribut json som innehåller data])
 # sen checkar om status kod av svaret#
-@patch("functions.hamtaData.requests.get")
+@patch("functions.hamta_data.requests.get")
 def test_data(mock_get, klient):
     mock_get.return_value = Mock(json=lambda: DATA)
     svar = klient.post("/", data=VAL, follow_redirects=True)
     assert svar.status_code == 200 or svar.status_code == 302
-    assert "10 °C" in svar.get_data(as_text=True)
+    assert "Stockholm" in svar.get_data(as_text=True)
+
+@patch("functions.hamta_data.requests.get")
+def test_ogiltig_stad(mock_get, klient):
+    svar = klient.post("/", data = OGILTIG_VAL)
+    assert svar.status_code == 400
+    assert "Ogiltigt stad" in svar.get_data(as_text=True)
+
+
+@patch("functions.hamta_data.requests.get")
+def test_ingen_formdata(mock_get, klient):
+    svar = klient.post("/", data = {})
+    assert svar.status_code == 400
+#Jag använde parametrize för att köra en enda funktion flera gånger med "förväntat" värde
+# om de värde till vänster möter den till höger testen lyckas#
+@pytest.mark.parametrize("temp, expected",[
+    (12.34, "12,3 °C"),        # avrunda till en decimal och komma istället för punkt 
+    (12.36, "12,4 °C"),        # avrunda
+    (12, "12,0 °C"),           # integer input
+    (0, "0,0 °C"),             # noll hanteras
+    (-5.67, "-5,7 °C"),        # negativa tal
+])
+def test_filter_resultat(temp, expected):
+    assert formatera_temperatur(temp) == expected
+
+def test_filter_jinja():
+    assert formatera_temperatur(None) == "Saknas temperatur" #testar error
+    assert "formatera_temperatur" in app.jinja_env.filters #testa om filter finns i jinja
