@@ -46,7 +46,7 @@ PARAMS = {
     ),
     "minutely_15": "temperature_2m",
     "timezone": "auto",
-    "forecast_days": 3,
+    "forecast_days": 4,
 }
 
 
@@ -61,8 +61,6 @@ def hamtaData(lat: float, lon: float):
         response = requests.get(url, params=params, timeout=5)
         response.raise_for_status()
         data = response.json()
-        # if not ["current"] in data:
-        #     raise requests.RequestException
         return data
     except requests.HTTPError as e:
         return f"Något gick fel: {e}"

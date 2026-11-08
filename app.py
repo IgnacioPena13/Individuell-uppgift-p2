@@ -2,7 +2,8 @@ from flask import Flask, redirect, render_template, request, url_for
 
 from functions.get_lat_lon import get_lat, get_lon
 from functions.hamta_data import HamtaDataFel, hamtaData
-from functions.hantera_data import giltig_indata
+from functions.hantera_data import giltig_indata, matchaAllaDaily, matchaAllaHourly
+from functions.graf import visa_forandring_dagar, visa_forandring_timmar
 
 app = Flask(__name__)
 
@@ -18,15 +19,12 @@ def formatera_temperatur(temp):
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    if request.method == "GET":
-        return render_template("index.html")
-    elif request.method == "POST":
-        stad = request.form["stad"]
+    if request.method == "POST":
+        stad = request.form.get("stad")
         if not giltig_indata(stad):
             return render_template("400.html", fel="Ogiltigt stad"), 400
         return redirect(url_for("prognos", stad=stad))
-    else:
-        return render_template("index.html")
+    return render_template("index.html")
 
 
 
@@ -36,23 +34,27 @@ def prognos(stad):
     #och om jag skriver /prognos/programmering kommer programmering visas som en stad
     #med vädret på 0,0 koordinaterna
     if not giltig_indata(stad):
-        return render_template("400.html", fel="Ogiltigt stad, testa något annat stad"), 400
+        return render_template("400.html", fel=f"{stad} finns inte, testa något annat stad :)"), 400
     prognos_data = hamtaData(get_lat(stad), get_lon(stad))
-    temperatur = prognos_data["current"]["temperature_2m"]
-    kannsSom = prognos_data["current"]["apparent_temperature"]
-    tempEnhet = prognos_data["current_units"]["temperature_2m"]
+    vader = prognos_data["current"]
+    timmarna =  matchaAllaHourly(prognos_data)
+    dagarna = matchaAllaDaily(prognos_data)
+    graf_dagar = visa_forandring_dagar(dagarna)
+    graf_timmar = visa_forandring_timmar(timmarna)
     return render_template(
         "prognos.html",
         stad=stad,
-        temperatur=temperatur,
-        kannsSom=kannsSom,
-        tempEnhet=tempEnhet,
+        vader=vader,
+        timmarna = timmarna,
+        dagarna = dagarna,
+        graf_dagar=graf_dagar,
+        graf_timmar=graf_timmar
     )
 
 
 @app.errorhandler(404)
 def finns_inte(e):
-    return render_template("400.html", fel=e), 404
+    return render_template("400.html", fel="Sidan hittades inte"), 404
 
 @app.errorhandler(500)
 def server_error(e):

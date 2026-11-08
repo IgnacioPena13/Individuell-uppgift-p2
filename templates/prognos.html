@@ -1,22 +1,52 @@
-<!DOCTYPE html>
-<html lang="sv">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
-    <title>{{stad}}</title>
-</head>
-
-<body>
-    <div class="h-100 d-flex justify-content-center">
-        <div
-            class="w-100 h-100 bg-light d-flex flex-column justify-content-center align-items-center border border-2 border-warning rounded-3">
-            <h1 class="text-primary">{{stad}}</h1>
-            <h3 class="text-primary">{{temperatur | formatera_temperatur}}</h3>
-            <h4 class="text-secondary">Känns som: {{kannsSom| formatera_temperatur}}</h4>
+{%extends "base.html" %}
+{%block content%}
+<div class="h-100 d-flex flex-column">
+    <!-- dagens temp..................................................... -->
+    <div class="mt-3 h-50 mb-3 d-flex justify-content-center align-items-center">
+        <div class="text-center col-3 bg-light border border-2 border-primary rounded-3">
+            <div>
+                <!-- stad -->
+                <h1>{{stad}}</h1>
+            </div>
+            <div class="text-primary">
+                <!-- temperatur formaterad-->
+                <p class="text-primary">{{vader.temperature_2m| formatera_temperatur}}</p>
+                <p class="text-secondary">Känns som: {{vader.apparent_temperature| formatera_temperatur}}</p>
+            </div>
+            <div>
+                <!-- vind hastighet, minsta och max tempreatur , datum, nederbörder-->
+                <p><b>Datum:</b> {{vader.time}}</p>
+                <p><b>Nederbörder:</b> {{vader.precipitation}} mm</p>
+                <p><b>Vind hastighet:</b> {{vader.wind_speed_10m_max}} km/h</p>
+            </div>
         </div>
-    </div>
-</body>
 
-</html>
+    </div>
+
+
+    <!-- for .................................................. -->
+    <div class="mt-3 d-flex align-content-center justify-content-center justify-content-around">
+        {%for dag in dagarna%}
+        <div class="text-center col-2 bg-light border border-1 border-success rounded-3">
+            <div>
+                <!-- medeltemperatur -->
+                <h1>{{dag.time}}</h1>
+            </div>
+            <div>
+                <!-- img och temp -->
+                <p>{{dag.temperature_2m_mean | formatera_temperatur}}</p>
+            </div>
+            <div>
+                <p class="text-danger">Högst: {{dag.temperature_2m_max| formatera_temperatur}}</p>
+                <p class="text-primary">Lägst: {{dag.temperature_2m_min | formatera_temperatur}}</p>
+                <!--minsta och max tempreatur , datum, nederbörder-->
+                <p>Nederbörder: {{dag.precipitation_sum}} mm</p>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
+
+    <div>{{graf_timmar| safe}}</div>
+    <div>{{graf_dagar| safe}}</div>
+</div>
+{%endblock%}
