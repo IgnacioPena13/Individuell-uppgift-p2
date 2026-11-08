@@ -5,6 +5,8 @@ import requests
 
 from app import app, formatera_temperatur
 from functions.hamta_data import HamtaDataFel, hamtaData
+from functions.hantera_data import matchaAllaHourly
+
 
 DATA = {
     "latitude": 59.3289,
@@ -16,7 +18,7 @@ DATA = {
     "elevation": 18,
     "current_units": {"time": "iso8601", "interval": "seconds", "temperature_2m": "°C"},
     "current": {
-        "time": "2026-10-27T11:00",
+        "time": "2026-11-08T00:00",
         "interval": 900,
         "temperature_2m": 10.1,
         "apparent_temperature": 6.2,
@@ -28,6 +30,59 @@ DATA = {
         "weather_code": 3,
         "wind_speed_10m": 21.6,
     },
+    "hourly": {
+    "time": [
+    "2026-11-08T00:00",
+    "2026-11-08T01:00",
+    "2026-11-08T02:00",
+    "2026-11-08T03:00",
+    "2026-11-08T04:00",
+    "2026-11-08T05:00"],
+    "temperature_2m": [
+    2.4,
+    2.2,
+    1.9,
+    1.9,
+    1.7,
+    1.6],
+    },
+    "daily": {
+"time": [
+"2026-11-08",
+"2026-11-09",
+"2026-11-10"
+],
+"weather_code": [
+3,
+3,
+51
+],
+"temperature_2m_mean": [
+2.6,
+4,
+4.5
+],
+"temperature_2m_max": [
+4,
+4.6,
+5.3
+],
+"temperature_2m_min": [
+1.5,
+3.5,
+3.8
+],
+"precipitation_sum": [
+0,
+0,
+0.2
+],
+"wind_speed_10m_max": [
+14.4,
+14.8,
+13
+]
+}
 }
 
 VAL = {"stad": "Stockholm"}
@@ -48,7 +103,7 @@ def test_get_metod(mock_get, klient):
     svar = klient.get("/prognos/Stockholm")
     assert svar.status_code == 200  # checkar success
     assert "GMT" in mock_get.return_value.json()["timezone"]
-    assert "2026-10-27T11:00" in mock_get.return_value.json()["current"]["time"]
+    assert "2026-11-08T00:00" in mock_get.return_value.json()["current"]["time"]
 
 
 # Jag testar timeout för jag hade inte gjort den i min gruppuppgift
@@ -114,3 +169,10 @@ def test_filter_resultat(temp, expected):
 def test_filter_jinja():
     assert formatera_temperatur(None) == "Saknas temperatur"  # testar error
     assert "formatera_temperatur" in app.jinja_env.filters  # testa om filter finns i jinja
+
+
+# testar om funktionen för att matche temperatur och tiden funkar,
+#  använder datetime för att hämta datum fär dagen man kör och jämföra#
+def testMatchaTemperatur():
+    data = matchaAllaHourly(DATA)
+    assert data[0]["time"] == f"2026-11-08T00:00"
