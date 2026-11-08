@@ -32,6 +32,9 @@ def index():
 
 @app.route("/prognos/<stad>")
 def prognos(stad):
+    #om jag inte hadde detta if-sats skulle API hämta data från koordinaterna 0,0
+    #och om jag skriver /prognos/programmering kommer programmering visas som en stad
+    #med vädret på 0,0 koordinaterna
     if not giltig_indata(stad):
         return render_template("400.html", fel="Ogiltigt stad, testa något annat stad"), 400
     prognos_data = hamtaData(get_lat(stad), get_lon(stad))
