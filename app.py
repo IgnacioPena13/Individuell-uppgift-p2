@@ -32,16 +32,16 @@ def index():
 
 @app.route("/prognos/<stad>")
 def prognos(stad):
+    if not giltig_indata(stad):
+        return render_template("400.html", fel="Ogiltigt stad, testa något annat stad"), 400
     prognos_data = hamtaData(get_lat(stad), get_lon(stad))
-    temperatur = prognos_data["current"]["temperature_2m"]#ändra--------------
-    temperatur2f = prognos_data["current"]["temperature_2m"]
+    temperatur = prognos_data["current"]["temperature_2m"]
     kannsSom = prognos_data["current"]["apparent_temperature"]
     tempEnhet = prognos_data["current_units"]["temperature_2m"]
     return render_template(
         "prognos.html",
         stad=stad,
         temperatur=temperatur,
-        temperatur2f=temperatur2f,
         kannsSom=kannsSom,
         tempEnhet=tempEnhet,
     )
