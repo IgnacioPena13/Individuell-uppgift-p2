@@ -7,7 +7,6 @@ from app import app, formatera_temperatur
 from functions.hamta_data import HamtaDataFel, hamtaData
 from functions.hantera_data import matchaAllaHourly
 
-
 DATA = {
     "latitude": 59.3289,
     "longitude": 18.072357,
@@ -31,58 +30,25 @@ DATA = {
         "wind_speed_10m": 21.6,
     },
     "hourly": {
-    "time": [
-    "2026-11-08T00:00",
-    "2026-11-08T01:00",
-    "2026-11-08T02:00",
-    "2026-11-08T03:00",
-    "2026-11-08T04:00",
-    "2026-11-08T05:00"],
-    "temperature_2m": [
-    2.4,
-    2.2,
-    1.9,
-    1.9,
-    1.7,
-    1.6],
+        "time": [
+            "2026-11-08T00:00",
+            "2026-11-08T01:00",
+            "2026-11-08T02:00",
+            "2026-11-08T03:00",
+            "2026-11-08T04:00",
+            "2026-11-08T05:00",
+        ],
+        "temperature_2m": [2.4, 2.2, 1.9, 1.9, 1.7, 1.6],
     },
     "daily": {
-"time": [
-"2026-11-08",
-"2026-11-09",
-"2026-11-10"
-],
-"weather_code": [
-3,
-3,
-51
-],
-"temperature_2m_mean": [
-2.6,
-4,
-4.5
-],
-"temperature_2m_max": [
-4,
-4.6,
-5.3
-],
-"temperature_2m_min": [
-1.5,
-3.5,
-3.8
-],
-"precipitation_sum": [
-0,
-0,
-0.2
-],
-"wind_speed_10m_max": [
-14.4,
-14.8,
-13
-]
-}
+        "time": ["2026-11-08", "2026-11-09", "2026-11-10"],
+        "weather_code": [3, 3, 51],
+        "temperature_2m_mean": [2.6, 4, 4.5],
+        "temperature_2m_max": [4, 4.6, 5.3],
+        "temperature_2m_min": [1.5, 3.5, 3.8],
+        "precipitation_sum": [0, 0, 0.2],
+        "wind_speed_10m_max": [14.4, 14.8, 13],
+    },
 }
 
 VAL = {"stad": "Stockholm"}
@@ -175,4 +141,4 @@ def test_filter_jinja():
 #  använder datetime för att hämta datum fär dagen man kör och jämföra#
 def testMatchaTemperatur():
     data = matchaAllaHourly(DATA)
-    assert data[0]["time"] == f"2026-11-08T00:00"
+    assert data[0]["time"] == "2026-11-08T00:00"
