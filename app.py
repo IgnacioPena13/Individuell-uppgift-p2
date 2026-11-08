@@ -62,6 +62,7 @@ def server_error(e):
     return render_template("500.html", fel="Internal server error"), 500
 
 
+# Min egen fel skapat
 @app.errorhandler(HamtaDataFel)
 def hantera_api_fel(e):
     return render_template("500.html", fel=str(e)), 502
