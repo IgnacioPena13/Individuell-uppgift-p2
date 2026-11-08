@@ -1,7 +1,5 @@
 # Individuell-uppgift-p2
 
-# Individuell-uppgift-p2
-
 ## Vad gör appen?
 
 Appen visar en meny där du väljer en stad och får väderprognosen för den. Appen visar:
